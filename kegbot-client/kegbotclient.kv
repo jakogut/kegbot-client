@@ -1,0 +1,90 @@
+<Background@Widget>:
+	canvas.before:
+		Color:
+			rgba: .5,.5,.5,1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+<AuthModal>:
+	id: authmodal
+	auto_dismiss: True
+
+<KegeratorInterface>:
+	on_valid_token: authmodal.open
+
+<TapScreen>:
+	size: root.size
+	pos: 0, 0
+
+	Background:
+		size: root.size
+
+	TitleBar:
+		id: title_bar
+		size_hint: (1, 0.10)
+		pos_hint: {'top': 1, 'left': 0}
+
+	RelativeLayout:
+		id: content
+		size_hint: (1, 1 - title_bar.size_hint_y)
+		pos_hint: {'bottom': 1}
+
+		Label:
+			id: bev_name
+			font_size: '22dp'
+			bold: True
+			size_hint: (0.4, 0.25)
+			size: self.texture_size
+			pos_hint: {'top': 0.95, 'center_x': 0.20}
+			color: (0, 0, 0, 1)
+			text: root.bev_name
+			valign: 'middle'
+			opacity: 0 if len(root.bev_image_src) > 0 else 1
+
+		RelativeLayout:
+			id: bev_image
+			size_hint: (0.4, 0.25)
+			pos_hint: {'top': 0.95, 'center_x': 0.20}
+			AsyncImage:
+				source: root.bev_image_src
+				opacity: 1 if len(root.bev_image_src) > 0 else 0
+
+		RelativeLayout:
+			id: keg_image
+			size_hint: (0.4, 0.75)
+			pos_hint: {'bottom': 1, 'center_x': 0.20}
+			AsyncImage:
+				source: root.keg_image_src
+
+
+<TitleBar>:
+	canvas.before:
+		Color:
+			rgba: 0,0,0,1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+	RelativeLayout:
+		size: root.size
+		pos: root.pos
+
+		KegTemp:
+			pos_hint: {'center_y': 0.5, 'left': 0.5}
+
+		TitleClock:
+			pos_hint: {'center_y': 0.5, 'right': 0.98}
+
+<KegTemp>:
+	font_size: '14dp'
+	size_hint: (None, None)
+	size: self.texture_size
+	text: self.display_temp
+
+<TitleClock>:
+	font_size: '14dp'
+	size_hint: (None, None)
+	size: self.texture_size
+	text: self.display_time
+
